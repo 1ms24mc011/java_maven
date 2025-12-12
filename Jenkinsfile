@@ -6,6 +6,7 @@ pipeline {
     }
 
     stages {
+
         stage('Checkout') {
             steps {
                 git branch: 'master', url: 'https://github.com/Aravind162003/maven_demo'
@@ -20,17 +21,21 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh "docker build -t ${IMAGE_NAME}:latest ."
+                script {
+                    // Build Docker image using Jenkins Docker DSL
+                    dockerImage = docker.build("${IMAGE_NAME}:latest")
+                }
             }
         }
 
-          stage('Push to Docker Hub') {
-      steps {
-        script {
-          docker.withRegistry('https://index.docker.io/v1/', 'dockerhub') {
-            dockerImage.push()
-          }
+        stage('Push to Docker Hub') {
+            steps {
+                script {
+                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub') {
+                        dockerImage.push("latest")
+                    }
+                }
+            }
         }
-      }
     }
-  }
+}
