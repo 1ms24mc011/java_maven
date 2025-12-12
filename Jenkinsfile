@@ -24,10 +24,13 @@ pipeline {
             }
         }
 
-        stage('Push Docker Image') {
-            steps {
-                sh "docker push ${IMAGE_NAME}:latest"
-            }
+          stage('Push to Docker Hub') {
+      steps {
+        script {
+          docker.withRegistry('https://index.docker.io/v1/', 'dockerhub') {
+            dockerImage.push()
+          }
         }
+      }
     }
-}
+  }
