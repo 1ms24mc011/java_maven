@@ -2,14 +2,14 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "aravind80555/maven_demo"
+        IMAGE_NAME = "aravind2003/maven_demo"
     }
 
     stages {
 
         stage('Checkout') {
             steps {
-                git branch: 'master', url: 'https://github.com/Aravind162003/java_maven'
+                git branch: 'master', url: 'https://github.com/1ms24mc011/java_maven'
             }
         }
 
